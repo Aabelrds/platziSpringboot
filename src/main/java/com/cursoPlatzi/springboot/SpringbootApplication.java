@@ -69,20 +69,52 @@ public class SpringbootApplication implements CommandLineRunner{
 }
 	
 	private void getInformationJpqlFromUser() {
-		LOGGER.info("Busqueda de usuario por email mediante queries " + 
-	userRepository.findByUserEmail("Mary@domain.com")
-		.orElseThrow(()-> new RuntimeException("El usuario no ha sido encontrado.")));
+//		LOGGER.info("Busqueda de usuario por email mediante queries " + 
+//	userRepository.findByUserEmail("Mary@domain.com")
+//		.orElseThrow(()-> new RuntimeException("El usuario no ha sido encontrado.")));
+//		
+//		userRepository.findAndSort("Isa", Sort.by("id").descending())
+//		.stream()
+//		.forEach(user -> LOGGER.info("Sort de usuario " + user));
+//		
+//		userRepository.findByName("Jhon")
+//		.stream()
+//		.forEach(user -> LOGGER.info("Usuario por query method " + user));
+//		
+//		LOGGER.info("Busqueda de usuario por query method findByEmailAndName " +
+//		userRepository.findByEmailAndName("isa@domain.com", "Isabel")
+//		.orElseThrow(()-> new RuntimeException("usuario no encontrado")));
 		
-		userRepository.findAndSort("Isa", Sort.by("id").descending())
+		
+		userRepository.findByNameLike("%Isa%")
 		.stream()
-		.forEach(user -> LOGGER.info("Sort de usuario " + user));
+		.forEach(user -> LOGGER.info("findByNameLike " + user));
+		
+		userRepository.findByNameOrEmail(null,"monica@domain.com" )
+		.stream()
+		.forEach(user -> LOGGER.info("findByNameOrEmail " + user));
+		userRepository.findByNameOrEmail("Isavel",null)
+		.stream()
+		.forEach(user -> LOGGER.info("findByNameOrEmail " + user));
+		
+					
+		LOGGER.info("findByBirthDateBetween " +
+		userRepository.findByBirthDateBetween(LocalDate.of(2021, 01, 01), LocalDate.of(2021, 04, 30)));
+		
+		userRepository.findByNameLikeOrderByIdDesc("%Isa%")
+		.stream()
+		.forEach(user-> LOGGER.info("findByNameLikeOrderByIdDesc "+ user));
+		
+		userRepository.findByNameContainingOrderByIdAsc("Isa")
+		.stream()
+		.forEach(user-> LOGGER.info("findByNameContainingOrderByIdAsc "+ user));
 	}
 	
 	private void saveUsersInDb() {
 		
 		User user1 = new User("Jhon", "jhon@domain.com",LocalDate.of(2021, 02, 27));
 		User user2 = new User("Maria", "Mary@domain.com",LocalDate.of(2021, 04, 14));
-		User user3 = new User("Juan", "juan@domain.com",LocalDate.of(2021, 07, 27));
+		User user3 = new User("Isabelino", "juan@domain.com",LocalDate.of(2021, 07, 27));
 		User user4 = new User("Isabel", "isa@domain.com",LocalDate.of(2021, 02, 27));
 		User user5 = new User("Isavel", "monica@domain.com",LocalDate.of(2021, 01, 27));
 		List<User> usersList = 

@@ -1,5 +1,6 @@
 package com.cursoPlatzi.springboot.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,20 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Query("Select u from User u WHERE u.name like ?1%")
 	List<User> findAndSort(@Param("name") String name, Sort sort);
 	
-	//Quyery Methods
+	//Quyery Methods implement
 	
+	List<User> findByName(String name);
+	
+	Optional<User> findByEmailAndName(String email, String name);
+	
+	List<User> findByNameLike(String name);
+	
+	List<User> findByNameOrEmail(String name, String email);
+	
+	List<User> findByBirthDateBetween(LocalDate begin, LocalDate end);
+	
+	List<User> findByNameLikeOrderByIdDesc(String name);
+	
+	List<User> findByNameContainingOrderByIdAsc(String name);
 }
  
