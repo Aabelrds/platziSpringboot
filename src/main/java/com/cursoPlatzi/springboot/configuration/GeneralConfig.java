@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import com.cursoPlatzi.springboot.bean.MyBeanProperties;
 import com.cursoPlatzi.springboot.bean.MyBeanPropertiesImpl;
@@ -16,16 +17,17 @@ import com.cursoPlatzi.springboot.pojo.UserPojo;
 
 //Config las variables diciendole a spring la clase.
 @Configuration
+@PropertySource("classpath:application.properties")
 @EnableConfigurationProperties(UserPojo.class)
 public class GeneralConfig {
 
-	@Value("$(value.name)")
+	@Value("$(name)")
 	private String name;
 
-	@Value("$(value.lastName)")
+	@Value("$(surName)")
 	private String lastName;
 	
-	@Value("$(value.randomValue)")
+	@Value("$(randomValue)")
 	private String randomValue;
 	
 	@Bean
@@ -42,7 +44,7 @@ public class GeneralConfig {
 		DataSourceBuilder<?> dataSourceBuilder = DataSourceBuilder.create();
 		dataSourceBuilder.driverClassName("org.h2.Driver");
 		dataSourceBuilder.url("jdbc:h2:mem:testdb");
-		dataSourceBuilder.username("SA");
+		dataSourceBuilder.username("sa");
 		dataSourceBuilder.password("");
 		
 		return dataSourceBuilder.build();

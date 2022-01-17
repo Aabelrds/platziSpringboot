@@ -27,17 +27,14 @@ public class User implements Serializable{
 	@Column(name = "user_birthDate")
 	private LocalDate birthDate;
 	
-	@Column(name = "user_pass", nullable = false)
-	private String password;
 	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<Post> posts = new ArrayList<>();
 	
 	
-	public User(Long id, String name, String email, LocalDate birthDate) {
+	public User(String name, String email, LocalDate birthDate) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.birthDate = birthDate;
@@ -48,7 +45,6 @@ public class User implements Serializable{
 
 
 	public User() {
-		super();
 	}
 
 
@@ -116,21 +112,6 @@ public class User implements Serializable{
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
-
-
-
-
-	public String getPassword() {
-		return password;
-	}
-
-
-
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 
 
 
