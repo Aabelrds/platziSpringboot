@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.cursoPlatzi.springboot.dto.UserDto;
 import com.cursoPlatzi.springboot.entity.User;
 
 @Repository
@@ -37,5 +38,14 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	List<User> findByNameLikeOrderByIdDesc(String name);
 	
 	List<User> findByNameContainingOrderByIdAsc(String name);
+	
+	//Named parameters 
+	@Query("SELECT new com.cursoPlatzi.springboot.dto.UserDto(u.id, u.name, u.birthDate)"+
+			" FROM User u "+
+			"where u.birthDate=:birthDateParameter "+
+			"and u.email=:emailParameter ")
+	Optional<List<UserDto>>  getAllByBirthDateAndEmail(
+			@Param("birthDateParameter") LocalDate date,
+			@Param("emailParameter") String email);
 }
  

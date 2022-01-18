@@ -1,13 +1,15 @@
 package com.cursoPlatzi.springboot.dto;
 
+import java.time.LocalDate;
+
 public class UserDto {
 	// En esta clase representaremos lo que queremos obtener en nuestras consultas Sql
 	
 	private Long id;
 	private String name;
-	private String birthDate;
+	private LocalDate birthDate;
 	
-	public UserDto(Long id, String name, String birthDate) {
+	public UserDto(Long id, String name, LocalDate birthDate) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,11 +41,11 @@ public class UserDto {
 		this.name = name;
 	}
 
-	public String getBirthDate() {
+	public LocalDate getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
 	}
 

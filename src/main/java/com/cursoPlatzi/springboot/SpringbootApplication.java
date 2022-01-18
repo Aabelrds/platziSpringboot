@@ -108,6 +108,10 @@ public class SpringbootApplication implements CommandLineRunner{
 		userRepository.findByNameContainingOrderByIdAsc("Isa")
 		.stream()
 		.forEach(user-> LOGGER.info("findByNameContainingOrderByIdAsc "+ user));
+		
+		LOGGER.info("NAMED PARAMETERS" +
+		userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021,02,27),"jhon@domain.com" )
+		.orElseThrow(()->new RuntimeException("No se ha encontrado dicho usurio ")));
 	}
 	
 	private void saveUsersInDb() {
