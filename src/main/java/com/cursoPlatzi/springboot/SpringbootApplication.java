@@ -80,11 +80,17 @@ public class SpringbootApplication implements CommandLineRunner{
 		
 		List<User> users = Arrays.asList(test1,test2,test3,test4);
 		
-		userService.saveTransactional(users);
+		try {
+			
+			userService.saveTransactional(users);
+			
+		} catch (Exception e) {
+			LOGGER.error("esto es una exception dentro del método transcational." + e);;
+		}
 		
 		userService.getAllUsers().stream()
-			.forEach(user -> LOGGER
-					.info("Usuarios desde el método transactional " + user ));;
+		.forEach(user -> LOGGER
+				.info("Usuarios desde el método transactional " + user ));;
 	}
 	
 	
