@@ -19,6 +19,7 @@ import com.cursoPlatzi.springboot.component.ComponentDependency;
 import com.cursoPlatzi.springboot.entity.User;
 import com.cursoPlatzi.springboot.pojo.UserPojo;
 import com.cursoPlatzi.springboot.repository.UserRepository;
+import com.cursoPlatzi.springboot.service.UserService;
 
 @SpringBootApplication
 public class SpringbootApplication implements CommandLineRunner{
@@ -31,6 +32,7 @@ public class SpringbootApplication implements CommandLineRunner{
 	private MyBeanProperties myBeanProperties;
 	private UserPojo userPojo;
 	private UserRepository userRepository;
+	private UserService userService;
 	//@QUALIFIER INDICA QUE DEPENDENCIA QUIERES UTILIZAR.
 	public SpringbootApplication(
 			@Qualifier("componentImpl2") ComponentDependency componentDependency,
@@ -38,7 +40,8 @@ public class SpringbootApplication implements CommandLineRunner{
 			MyBeanWithDependency myBeanWithDependency,
 			MyBeanProperties myBeanProperties,
 			UserPojo userPojo,
-			UserRepository userRepository) {
+			UserRepository userRepository,
+			UserService userService) {
 		super();
 		
 		this.componentDependency = componentDependency;
@@ -47,6 +50,7 @@ public class SpringbootApplication implements CommandLineRunner{
 		this.myBeanProperties = myBeanProperties;
 		this.userPojo = userPojo;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
 
 
@@ -62,11 +66,29 @@ public class SpringbootApplication implements CommandLineRunner{
 //		beforesExamples();
 		saveUsersInDb();
 		getInformationJpqlFromUser();
-
+		saveWithErrorTransactional();
 		
 
 
 }
+	private void saveWithErrorTransactional() {
+		
+		User test1 = new User("TestTransactional1", "TestTransactional1@domain.com", LocalDate.now());
+		User test2 = new User("TestTransactional2", "TestTransactional2@domain.com", LocalDate.now());
+		User test3 = new User("TestTransactional3", "TestTransactional3@domain.com", LocalDate.now());
+		User test4 = new User("TestTransactional4", "TestTransactional4@domain.com", LocalDate.now());
+		
+		List<User> users = Arrays.asList(test1,test2,test3,test4);
+		
+		userService.saveTransactional(users);
+		
+		userService.getAllUsers().stream()
+			.forEach(user -> LOGGER
+					.info("Usuarios desde el método transactional " + user ));;
+	}
+	
+	
+	
 	
 	private void getInformationJpqlFromUser() {
 //		LOGGER.info("Busqueda de usuario por email mediante queries " + 
